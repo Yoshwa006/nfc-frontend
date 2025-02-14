@@ -79,19 +79,21 @@ if (!itemId) {
                         method: "DELETE"
                     })
                     .then(response => {
+                        if(response.ok) {
+                            alert("Successfully deleted item!");
+                            window.location.href = "/index.html";
+                        }
                         if (!response.ok) {
                             throw new Error(`Failed to delete: ${response.status}`);
                         }
-                        return response.json();
+                        // Handle empty or non-JSON responses
+                        return response.text().then(text => text ? JSON.parse(text) : {});
                     })
                     .then(data => {
                         alert("Item deleted successfully!");
                         window.location.href = "/"; // Redirect to home page
                     })
-                    .catch(error => {
-                        console.error("Error deleting item:", error);
-                        alert("Failed to delete item. Check console for details.");
-                    });
+
                 }
             });
 
