@@ -1,7 +1,7 @@
 /* General Page Styling */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    background-color: #717b83;
     text-align: center;
     margin: 0;
     padding: 0;
@@ -11,18 +11,21 @@ body {
 .container {
     max-width: 500px;
     margin: 50px auto;
-    background: white;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
+#NFC{
+    margin: 20px 0;
+    border-radius: 8px;
+    margin-top: 20px;
 
+}
 /* Item Details Box */
 #item-details {
     margin: 20px 0;
     padding: 15px;
     border-radius: 8px;
-    background: #f8f8f8;
+    background: #ffffff;
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
 }
 
@@ -62,4 +65,9 @@ button:hover {
 
 .register-btn:hover {
     background-color: #0056b3;
+}
+
+
+.item-de{
+    text-align: left;
 }

@@ -10,12 +10,14 @@ if (!itemId) {
         .then(data => {
             document.getElementById("item-details").innerHTML = `
                 <img src="download.jpeg" alt="Item Image">
+                <div class="item-de">
                 <h2>Item Name: ${data.itemName}</h2>
                 <p><strong>Price:</strong> &#8377; ${data.price}</p>
                 <p><strong>Description:</strong> ${data.description}</p>
                 <p><strong>Owner:</strong> ${data.ownerName}</p>
                 <p><strong>Contact:</strong> ${data.phone}</p>
                 <p><strong>Available:</strong> ${data.available ? "Yes" : "No"}</p>
+                </div>
             `;
         })
         .catch(error => {
