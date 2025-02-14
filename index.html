@@ -7,18 +7,21 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-        <h1 id="NFC">NFC Rental System</h1>
-        <div class="container"></div>
+    <h1 id="NFC">NFC Rental System</h1>
+
+    <div class="container">
         <div id="item-details">
-            <p>Loading...</p>
-        </div>
-        
-        <div class="button-container">
-            <a href="modify.html"><button class="update-btn">Update</button></a>
-            <a href="Register.html"><button class="register-btn">Register</button></a>
+            <p id="item-text">Loading...</p>
+            <input type="text" id="edit-input" style="display: none;">
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <div class="button-container">
+        <button class="update-btn" onclick="enableEditing()">Update</button>
+        <button class="save-btn" onclick="saveChanges()" style="display: none;">Save</button>
+        <a href="Register.html"><button class="register-btn">Register</button></a>
+        <script src="script.js"></script>
+    </div>
+
 </body>
 </html>
