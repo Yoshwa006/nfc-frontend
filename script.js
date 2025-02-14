@@ -1,4 +1,3 @@
-// Get item ID from the URL
 const urlParams = new URLSearchParams(window.location.search);
 const itemId = urlParams.get("id");
 
@@ -8,8 +7,7 @@ if (!itemId) {
     fetch(`https://nfc-rental-system2-1.onrender.com/items/${itemId}`)
         .then(response => response.json())
         .then(data => {
-            // Store the password for validation
-            const correctPassword = data.password; 
+            const correctPassword = data.password;
 
             document.getElementById("item-details").innerHTML = `
                 <img src="download.jpeg" alt="Item Image">
@@ -23,49 +21,78 @@ if (!itemId) {
                 </div>
                 <button id="modify-btn">Modify</button>
                 <button id="save-btn" style="display: none;">Save</button>
+                <button id="delete-btn" style="display: none; background-color: red; color: white;">Delete This Item</button>
             `;
 
             document.getElementById("modify-btn").addEventListener("click", function () {
                 const userPassword = prompt("Enter password to modify:");
-
                 if (userPassword === correctPassword) {
                     makeEditable();
                 } else {
                     alert("Incorrect password!");
                 }
             });
-            
+
             document.getElementById("save-btn").addEventListener("click", function () {
-                
                 const updatedData = {
                     itemName: document.getElementById("itemName").textContent,
-                    price: document.getElementById("price").textContent,
+                    price: Number(document.getElementById("price").textContent),
                     description: document.getElementById("description").textContent,
                     ownerName: document.getElementById("owner").textContent,
                     phone: document.getElementById("phone").textContent,
-                    available: document.getElementById("available").textContent === "Yes",
-                    password: correctPassword // Ensure password remains the same
+                    available: document.getElementById("available").textContent.trim().toLowerCase() === "yes",
+                    password: correctPassword 
                 };
-                console.log(updatedData);
+
+                console.log("Updating with data:", updatedData);
+
                 fetch(`https://nfc-rental-system2-1.onrender.com/items/${itemId}`, {
                     method: "PUT",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(updatedData) // ✅ Sending only updated fields, not `id`
+                    body: JSON.stringify(updatedData)
                 })
                 .then(response => {
                     if (!response.ok) {
-                        throw new Error("Failed to update item");
+                        throw new Error(`Failed to update: ${response.status}`);
                     }
                     return response.json();
                 })
                 .then(data => {
                     alert("Item updated successfully!");
-                    location.reload(); // Refresh to see changes
+                    location.reload();
                 })
                 .catch(error => {
                     console.error("Error updating item:", error);
-                    alert("Failed to update item.");
+                    alert("Failed to update item. Check console for details.");
                 });
+            });
+
+            document.getElementById("delete-btn").addEventListener("click", function () {
+                const userPassword = prompt("Enter password to delete:");
+                if (userPassword !== correctPassword) {
+                    alert("Incorrect password! Deletion cancelled.");
+                    return;
+                }
+
+                if (confirm("Are you sure you want to delete this item? This action cannot be undone.")) {
+                    fetch(`https://nfc-rental-system2-1.onrender.com/items/${itemId}`, {
+                        method: "DELETE"
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`Failed to delete: ${response.status}`);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        alert("Item deleted successfully!");
+                        window.location.href = "/"; // Redirect to home page
+                    })
+                    .catch(error => {
+                        console.error("Error deleting item:", error);
+                        alert("Failed to delete item. Check console for details.");
+                    });
+                }
             });
 
             function makeEditable() {
@@ -78,6 +105,7 @@ if (!itemId) {
 
                 document.getElementById("modify-btn").style.display = "none";
                 document.getElementById("save-btn").style.display = "block";
+                document.getElementById("delete-btn").style.display = "block";
             }
         })
         .catch(error => {
