@@ -10,7 +10,7 @@ if (!itemId) {
             const correctPassword = data.password;
 
             document.getElementById("item-details").innerHTML = `
-                <img src="download.jpeg" alt="Item Image">
+                <img src="assets/download.jpeg" alt="Item Image">
                 <div class="item-de">
                     <h2>Item Name: <span id="itemName" contenteditable="false">${data.itemName}</span></h2>
                     <p><strong>Price:</strong> &#8377; <span id="price" contenteditable="false">${data.price}</span></p>
