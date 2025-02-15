@@ -113,7 +113,7 @@ if (!itemId) {
                 document.getElementById("owner").contentEditable = "true";
                 document.getElementById("phone").contentEditable = "true";
                 document.getElementById("available").contentEditable = "true";
-                document.getElementById("dateOfUpload").contentEditable = "true";
+                document.getElementById("dateOfUpload").contentEditable = "false";
 
                 document.getElementById("modify-btn").style.display = "none";
                 document.getElementById("save-btn").style.display = "inline-block";

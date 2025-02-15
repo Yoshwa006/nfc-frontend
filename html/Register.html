@@ -60,7 +60,10 @@
         <label for="itemName">Item Name:</label>
         <input type="text" id="itemName" name="itemName" required>
 
-        <label for="price">Price:</label>
+        <label for="pricePerDay">Price Per Day:</label>
+        <input type="number" id="pricePerDay" name="pricePerDay" required>
+
+        <label for="price">Total Price:</label>
         <input type="number" id="price" name="price" required>
 
         <label for="description">Description:</label>
@@ -91,16 +94,22 @@
         document.getElementById('itemForm').addEventListener('submit', function (event) {
             event.preventDefault(); // Prevent the form from submitting the traditional way
 
+            // Get current date in dd/mm/yyyy format
+            const currentDate = new Date();
+            const formattedDate = `${currentDate.getDate().toString().padStart(2, '0')}/${(currentDate.getMonth() + 1).toString().padStart(2, '0')}/${currentDate.getFullYear()}`;
+
             // Get form data
             const formData = {
                 itemName: document.getElementById('itemName').value,
+                pricePerDay: parseFloat(document.getElementById('pricePerDay').value),
                 images: null,
                 price: parseFloat(document.getElementById('price').value),
                 description: document.getElementById('description').value,
                 ownerName: document.getElementById('ownerName').value,
                 phone: document.getElementById('phone').value,
                 password: document.getElementById('password').value,
-                available: document.getElementById('available').checked
+                available: document.getElementById('available').checked,
+                dateOfUpload: formattedDate // Automatically generated date
             };
 
             // Define the backend URL
