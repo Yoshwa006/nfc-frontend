@@ -14,10 +14,12 @@ if (!itemId) {
                 <div class="item-de">
                     <h2>Item Name: <span id="itemName" contenteditable="false">${data.itemName}</span></h2>
                     <p><strong>Price:</strong> &#8377; <span id="price" contenteditable="false">${data.price}</span></p>
+                    <p><strong>Price Per Day:</strong> &#8377; <span id="pricePerDay" contenteditable="false">${data.pricePerDay}</span></p>
                     <p><strong>Description:</strong> <span id="description" contenteditable="false">${data.description}</span></p>
                     <p><strong>Owner:</strong> <span id="owner" contenteditable="false">${data.ownerName}</span></p>
                     <p><strong>Contact:</strong> <span id="phone" contenteditable="false">${data.phone}</span></p>
                     <p><strong>Available:</strong> <span id="available" contenteditable="false">${data.available ? "Yes" : "No"}</span></p>
+                    <p><strong>Date of Upload:</strong> <span id="dateOfUpload" contenteditable="false">${data.dateOfUpload}</span></p>
                 </div>
                 <div class="button-group">
                     <button id="modify-btn">Modify</button>
@@ -42,10 +44,12 @@ if (!itemId) {
                 const updatedData = {
                     itemName: document.getElementById("itemName").textContent,
                     price: Number(document.getElementById("price").textContent),
+                    pricePerDay: Number(document.getElementById("pricePerDay").textContent),
                     description: document.getElementById("description").textContent,
                     ownerName: document.getElementById("owner").textContent,
                     phone: document.getElementById("phone").textContent,
                     available: document.getElementById("available").textContent.trim().toLowerCase() === "yes",
+                    dateOfUpload: document.getElementById("dateOfUpload").textContent,
                     password: correctPassword 
                 };
 
@@ -73,7 +77,7 @@ if (!itemId) {
             });
 
             document.getElementById("cancel-btn").addEventListener("click", function () {
-                location.reload(); // Reload the page to cancel changes
+                location.reload();
             });
 
             document.getElementById("delete-btn").addEventListener("click", function () {
@@ -104,10 +108,12 @@ if (!itemId) {
             function makeEditable() {
                 document.getElementById("itemName").contentEditable = "true";
                 document.getElementById("price").contentEditable = "true";
+                document.getElementById("pricePerDay").contentEditable = "true";
                 document.getElementById("description").contentEditable = "true";
                 document.getElementById("owner").contentEditable = "true";
                 document.getElementById("phone").contentEditable = "true";
                 document.getElementById("available").contentEditable = "true";
+                document.getElementById("dateOfUpload").contentEditable = "true";
 
                 document.getElementById("modify-btn").style.display = "none";
                 document.getElementById("save-btn").style.display = "inline-block";
@@ -119,4 +125,4 @@ if (!itemId) {
             console.error("Error fetching item:", error);
             document.getElementById("item-details").innerHTML = "<p>Failed to load item details.</p>";
         });
-}
+    }
