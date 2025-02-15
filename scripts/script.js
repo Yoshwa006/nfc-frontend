@@ -19,9 +19,14 @@ if (!itemId) {
                     <p><strong>Contact:</strong> <span id="phone" contenteditable="false">${data.phone}</span></p>
                     <p><strong>Available:</strong> <span id="available" contenteditable="false">${data.available ? "Yes" : "No"}</span></p>
                 </div>
-                <button id="modify-btn">Modify</button>
-                <button id="save-btn" style="display: none;">Save</button>
-                <button id="delete-btn" style="display: none; background-color: red; color: white;">Delete This Item</button>
+                <div class="button-group">
+                    <button id="modify-btn">Modify</button>
+                    <button id="save-btn" style="display: none;">Save</button>
+                    <button id="cancel-btn" style="display: none;">Cancel</button>
+                </div>
+                <div class="delete-container">
+                    <button id="delete-btn" style="display: none; background-color: red; color: white;">Delete This Item</button>
+                </div>
             `;
 
             document.getElementById("modify-btn").addEventListener("click", function () {
@@ -67,6 +72,10 @@ if (!itemId) {
                 });
             });
 
+            document.getElementById("cancel-btn").addEventListener("click", function () {
+                location.reload(); // Reload the page to cancel changes
+            });
+
             document.getElementById("delete-btn").addEventListener("click", function () {
                 const userPassword = prompt("Enter password to delete:");
                 if (userPassword !== correctPassword) {
@@ -79,21 +88,16 @@ if (!itemId) {
                         method: "DELETE"
                     })
                     .then(response => {
-                        if(response.ok) {
-                            alert("Successfully deleted item!");
-                            window.location.href = "html/home.html";
-                        }
                         if (!response.ok) {
                             throw new Error(`Failed to delete: ${response.status}`);
                         }
-                        // Handle empty or non-JSON responses
-                        return response.text().then(text => text ? JSON.parse(text) : {});
-                    })
-                    .then(data => {
                         alert("Item deleted successfully!");
-                        window.location.href = "/"; // Redirect to home page
+                        window.location.href = "https://yoshwa006.github.io/nfc-frontend/html/home.html"; 
                     })
-
+                    .catch(error => {
+                        console.error("Error deleting item:", error);
+                        alert("Failed to delete item.");
+                    });
                 }
             });
 
@@ -106,7 +110,8 @@ if (!itemId) {
                 document.getElementById("available").contentEditable = "true";
 
                 document.getElementById("modify-btn").style.display = "none";
-                document.getElementById("save-btn").style.display = "block";
+                document.getElementById("save-btn").style.display = "inline-block";
+                document.getElementById("cancel-btn").style.display = "inline-block";
                 document.getElementById("delete-btn").style.display = "block";
             }
         })
