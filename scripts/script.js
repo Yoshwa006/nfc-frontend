@@ -81,7 +81,7 @@ if (!itemId) {
                     .then(response => {
                         if(response.ok) {
                             alert("Successfully deleted item!");
-                            window.location.href = "/";
+                            window.location.href = "html/home.html";
                         }
                         if (!response.ok) {
                             throw new Error(`Failed to delete: ${response.status}`);
