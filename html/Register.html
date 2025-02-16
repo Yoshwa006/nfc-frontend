@@ -7,115 +7,137 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        form {
-            max-width: 400px;
-            margin: 0 auto;
+            background-color: #f4f4f4;
+            margin: 0;
             padding: 20px;
-            border: 1px solid #ccc;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .container {
+            max-width: 450px;
+            width: 100%;
+            padding: 20px;
+            background: #fff;
             border-radius: 10px;
-            background-color: #f9f9f9;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         label {
             display: block;
-            margin-bottom: 8px;
+            margin: 10px 0 5px;
             font-weight: bold;
         }
-        input[type="text"], input[type="number"], input[type="password"] {
+        input[type="text"], input[type="number"], input[type="password"], input[type="checkbox"] {
             width: 100%;
             padding: 8px;
-            margin-bottom: 15px;
             border: 1px solid #ccc;
             border-radius: 5px;
+            font-size: 16px;
+            margin-bottom: 10px;
         }
         input[type="checkbox"] {
-            margin-bottom: 15px;
+            width: auto;
+            margin-right: 5px;
         }
-        button {
+        .button {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             background-color: #28a745;
             color: white;
+            font-size: 16px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.3s;
         }
-        button:hover {
+        .button:hover {
             background-color: #218838;
+        }
+        .home-button {
+            background-color: #007bff;
+        }
+        .home-button:hover {
+            background-color: #0056b3;
         }
         #response {
             margin-top: 20px;
             padding: 10px;
-            border: 1px solid #ccc;
             border-radius: 5px;
             background-color: #e9ecef;
-            display: none; /* Hidden by default */
+            text-align: center;
+            display: none;
         }
     </style>
 </head>
 <body>
     <h1>NFC Rental System</h1>
-    <form id="itemForm">
-        <label for="itemName">Item Name:</label>
-        <input type="text" id="itemName" name="itemName" required>
+    <div class="container">
+        <form id="itemForm">
+            <label for="itemName">Item Name:</label>
+            <input type="text" id="itemName" name="itemName" required>
 
-        <label for="pricePerDay">Price Per Day:</label>
-        <input type="number" id="pricePerDay" name="pricePerDay" required>
+            <label for="pricePerDay">Price Per Day:</label>
+            <input type="number" id="pricePerDay" name="pricePerDay" required>
 
-        <label for="price">Total Price:</label>
-        <input type="number" id="price" name="price" required>
+            <label for="price">Total Price:</label>
+            <input type="number" id="price" name="price" required>
 
-        <label for="description">Description:</label>
-        <input type="text" id="description" name="description" required>
+            <label for="description">Description:</label>
+            <input type="text" id="description" name="description" required>
 
-        <label for="ownerName">Owner Name:</label>
-        <input type="text" id="ownerName" name="ownerName" required>
+            <label for="ownerName">Owner Name:</label>
+            <input type="text" id="ownerName" name="ownerName" required>
 
-        <label for="phone">Phone:</label>
-        <input type="text" id="phone" name="phone" required>
+            <label for="phone">Phone:</label>
+            <input type="text" id="phone" name="phone" required>
 
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
 
-        <label for="available">Available:</label>
-        <input type="checkbox" id="available" name="available" checked>
+            <label>
+                <input type="checkbox" id="available" name="available" checked>
+                Available
+            </label>
 
-        <button type="submit">Submit</button>
-    </form>
+            <button type="submit" class="button">Submit</button>
+        </form>
+
+        <button onclick="goHome()" class="button home-button">🏠 Home</button>
+    </div>
 
     <div id="response">
-        <h2>Response from Backend:</h2>
-        <p>Link: <a id="backendLink" target="_blank"></a></p>
+        <h2><p>Link: <a id="backendLink" target="_blank"></a></p></h2>
+        <button onclick="copyLink()" class="button">Copy Link</button>
+        <p>Copy this link to your NFC tag using an NFC reader third-party app. We suggest you use this app: <a href="https://play.google.com/store/apps/details?id=com.wakdev.wdnfc&pcampaignid=web_share" target="_blank">NFC Tools</a>. If you have any doubts about storing this link on your tag, <a href="help.html">press here</a>.</p>
     </div>
 
     <script>
-        // Add an event listener to the form
         document.getElementById('itemForm').addEventListener('submit', function (event) {
-            event.preventDefault(); // Prevent the form from submitting the traditional way
+            event.preventDefault();
 
-            // Get current date in dd/mm/yyyy format
             const currentDate = new Date();
             const formattedDate = `${currentDate.getDate().toString().padStart(2, '0')}/${(currentDate.getMonth() + 1).toString().padStart(2, '0')}/${currentDate.getFullYear()}`;
 
-            // Get form data
             const formData = {
                 itemName: document.getElementById('itemName').value,
                 pricePerDay: parseFloat(document.getElementById('pricePerDay').value),
-                images: null,
                 price: parseFloat(document.getElementById('price').value),
                 description: document.getElementById('description').value,
                 ownerName: document.getElementById('ownerName').value,
                 phone: document.getElementById('phone').value,
                 password: document.getElementById('password').value,
                 available: document.getElementById('available').checked,
-                dateOfUpload: formattedDate // Automatically generated date
+                dateOfUpload: formattedDate
             };
 
-            // Define the backend URL
             const backendUrl = 'https://nfc-rental-system2-1.onrender.com/items';
 
-            // Send the POST request using fetch
             fetch(backendUrl, {
                 method: 'POST',
                 headers: {
@@ -127,22 +149,31 @@
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
-                return response.text(); // Parse the response as text
+                return response.text();
             })
             .then(data => {
-                // Display the response
-                const responseDiv = document.getElementById('response');
-                const backendLink = document.getElementById('backendLink');
-
-                backendLink.href = data; // Set the link href
-                backendLink.textContent = data; // Set the link text
-                responseDiv.style.display = 'block'; // Show the response div
+                document.getElementById('backendLink').href = data;
+                document.getElementById('backendLink').textContent = data;
+                document.getElementById('response').style.display = 'block';
             })
             .catch(error => {
-                console.error('There was a problem with the fetch operation:', error);
+                console.error('Error:', error);
                 alert('An error occurred. Please try again.');
             });
         });
+
+        function goHome() {
+            window.location.href = 'home.html';
+        }
+
+        function copyLink() {
+            const linkText = document.getElementById('backendLink').textContent;
+            navigator.clipboard.writeText(linkText).then(() => {
+                alert('Link copied to clipboard!');
+            }).catch(err => {
+                console.error('Failed to copy link: ', err);
+            });
+        }
     </script>
 </body>
 </html>
