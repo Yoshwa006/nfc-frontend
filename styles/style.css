@@ -1,32 +1,49 @@
 /* General Page Styling */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #717b83;
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa; /* Light gray background for a softer look */
     text-align: center;
     margin: 0;
     padding: 0;
+    color: #333; /* Darker text for better readability */
 }
 
 /* Centering Container */
 .container {
     max-width: 500px;
     margin: 50px auto;
-    padding: 20px;
-    border-radius: 10px;
+    padding: 30px;
+    border-radius: 15px;
+    background-color: #ffffff; /* White background for the container */
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    animation: fadeIn 0.6s ease-out; /* Fade-in animation for the container */
 }
-#NFC{
+
+#NFC {
     margin: 20px 0;
     border-radius: 8px;
     margin-top: 20px;
-
 }
+
+/* Home Button - Centered and Above Item Details */
+.home-button {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px; /* Space below home button */
+}
+
 /* Item Details Box */
 #item-details {
     margin: 20px 0;
-    padding: 15px;
-    border-radius: 8px;
+    padding: 20px;
+    border-radius: 12px;
     background: #ffffff;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effect */
+}
+
+#item-details:hover {
+    transform: translateY(-5px); /* Slight lift on hover */
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
 }
 
 /* Image Styling */
@@ -34,6 +51,21 @@ body {
     width: 100%;
     height: auto;
     border-radius: 10px;
+    margin-bottom: 15px; /* Added spacing below the image */
+}
+
+/* Text Styling */
+.item-de {
+    text-align: left;
+    font-size: 14px;
+    color: #555; /* Slightly lighter text for details */
+}
+
+/* Register Button - Centered and Below Item Details */
+.register-in-home {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px; /* Space above the register button */
 }
 
 /* Button Styling */
@@ -49,29 +81,92 @@ button {
     font-size: 16px;
     cursor: pointer;
     text-decoration: none;
-    border-radius: 5px;
+    border-radius: 8px; /* Slightly larger radius for a modern look */
     margin: 5px;
     width: 150px;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
 }
 
 button:hover {
     background-color: #218838;
+    transform: scale(1.05); /* Slight scale effect on hover */
 }
 
-/* Register Button Different Color */
+/* Register Button - Green */
 .register-btn {
-    background-color: #007bff;
+    background-color: #28a745;
 }
 
 .register-btn:hover {
+    background-color: #218838;
+}
+
+/* Home Button - Blue */
+.home-btn {
+    background-color: #007bff;
+}
+
+.home-btn:hover {
     background-color: #0056b3;
 }
 
-
-.item-de{
-    text-align: left;
+/* Centering the buttons */
+.cta-buttons {
+    display: flex;
+    justify-content: center; /* Centers horizontally */
+    align-items: center; /* Aligns items vertically */
+    gap: 15px; /* Space between buttons */
+    margin: 20px 0; /* Adds spacing */
 }
 
-.register-in-home{
-    text-align: center;
+/* Button styles */
+.cta-button, .register-button {
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
+}
+
+.cta-button {
+    background-color: #007BFF; /* Blue */
+    color: white;
+}
+
+.register-button {
+    background-color: #28a745; /* Green */
+    color: white;
+}
+
+/* Button hover effect */
+.cta-button:hover, .register-button:hover {
+    opacity: 0.9;
+    transform: scale(1.05); /* Slight scale effect on hover */
+}
+
+/* Additional Premium Touches */
+.container h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #007BFF; /* Blue for headings */
+}
+
+.container p {
+    font-size: 14px;
+    color: #666; /* Lighter text for descriptions */
+    line-height: 1.6; /* Improved readability */
+}
+
+/* Animation for a premium feel */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
