@@ -4,8 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Item Details</title>
-    <link rel="stylesheet" href="style/style.css">
-    
+    <link rel="stylesheet" href="styles/style.css">
+    <style>
+        /* Centering the buttons */
+        .cta-buttons {
+            display: flex;
+            justify-content: center;  /* Centers horizontally */
+            align-items: center;  /* Aligns items vertically */
+            gap: 15px;  /* Space between buttons */
+            margin: 20px 0;  /* Adds spacing */
+        }
+        
+        /* Button styles */
+        .cta-button, .register-button {
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        .cta-button {
+            background-color: #007BFF; /* Blue */
+            color: white;
+        }
+        
+        .register-button {
+            background-color: #28a745; /* Green */
+            color: white;
+        }
+        
+        /* Button hover effect */
+        .cta-button:hover, .register-button:hover {
+            opacity: 0.8;
+        }
+    </style>
 </head>
 <body>
     <h1 id="NFC" style="text-align: center;">NFC Rental System</h1>
@@ -14,7 +49,6 @@
     <div class="cta-buttons">
         <a href="html/home.html"><button class="cta-button">Home</button></a>
         <a href="html/Register.html"><button class="register-button">Register a new item</button></a>
-
     </div>
 
     <div class="container">
@@ -25,6 +59,5 @@
     </div>
 
     <script src="scripts/script.js"></script>
-
 </body>
 </html>
