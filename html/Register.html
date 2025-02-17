@@ -155,7 +155,7 @@
 
             // Get the current date and time
             const currentDate = new Date();
-            const formattedDate = currentDate.toISOString(); // Format as ISO string (e.g., "2023-10-05T12:34:56.789Z")
+            const formattedDate = currentDate.toISOString().split('T')[0]; // Extracts only the date part (e.g., "2023-10-05") // Format as ISO string (e.g., "2023-10-05T12:34:56.789Z")
 
             const formData = {
                 itemName: document.getElementById('itemName').value,
