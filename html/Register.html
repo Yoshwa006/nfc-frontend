@@ -15,9 +15,17 @@
             align-items: center;
             justify-content: center;
         }
-        h1 {
+        h1, h2 {
             color: #333;
             text-align: center;
+        }
+        h1 {
+            font-size: 28px;
+            font-weight: bold;
+        }
+        h2 {
+            font-size: 22px;
+            font-weight: bold;
         }
         .container {
             max-width: 450px;
@@ -32,31 +40,22 @@
             margin: 10px 0 5px;
             font-weight: bold;
         }
-        input[type="text"], input[type="number"], input[type="password"], input[type="checkbox"] {
+        input, button {
             width: 100%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+            padding: 10px;
             font-size: 16px;
             margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
         }
-        input[type="checkbox"] {
-            width: auto;
-            margin-right: 5px;
-        }
-        .button {
-            width: 100%;
-            padding: 12px;
+        button {
+            cursor: pointer;
             background-color: #28a745;
             color: white;
-            font-size: 16px;
             border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 10px;
             transition: background 0.3s;
         }
-        .button:hover {
+        button:hover {
             background-color: #218838;
         }
         .home-button {
@@ -67,11 +66,25 @@
         }
         #response {
             margin-top: 20px;
-            padding: 10px;
+            padding: 15px;
             border-radius: 5px;
             background-color: #e9ecef;
-            text-align: center;
+            text-align: left;
             display: none;
+        }
+        .info-text {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            text-align: left;
+            line-height: 1.6;
+        }
+        .warning-text {
+            color: red;
+            font-weight: bold;
+            font-size: 18px;
+            margin-top: 10px;
+            text-align: center;
         }
     </style>
 </head>
@@ -105,24 +118,44 @@
                 Available
             </label>
 
-            <button type="submit" class="button">Submit</button>
+            <button type="submit">Submit</button>
         </form>
 
-        <button onclick="goHome()" class="button home-button">🏠 Home</button>
+        <button onclick="goHome()" class="home-button">🏠 Home</button>
     </div>
 
     <div id="response">
-        <h2><p>Link: <a id="backendLink" target="_blank"></a></p></h2>
-        <button onclick="copyLink()" class="button">Copy Link</button>
-        <p>Copy this link to your NFC tag using an NFC reader third-party app. We suggest you use this app: <a href="https://play.google.com/store/apps/details?id=com.wakdev.wdnfc&pcampaignid=web_share" target="_blank">NFC Tools</a>. If you have any doubts about storing this link on your tag, <a href="help.html">press here</a>.</p>
+        <h1>Link Generated 🎉</h1>
+        <h2>Now you need to store this link on your NFC tag.</h2>
+        <p class="info-text">
+            ✅ **Step 1:** Copy the link below. <br>
+            ✅ **Step 2:** Press the <b>"SCAN"</b> button. <br>
+            ✅ **Step 3:** Bring your NFC tag close to your phone. The link will be written automatically. <br>
+        </p>
+
+        
+
+        <p class="info-text">
+            💡 If you prefer to manually write the link to your NFC tag like a real CHAD 🗿,  
+            we recommend using the 
+            <a href="https://play.google.com/store/apps/details?id=com.wakdev.wdnfc&pcampaignid=web_share" target="_blank">NFC Tools</a> app.
+        </p>
+        
+        <h2>🔗 Your NFC Link:</h2>
+        <h3><p>Link: <a id="backendLink" target="_blank"></a></p></h3>
+        
+        <button onclick="copyLink()">📋 Copy Link</button>
+        <p class="warning-text">⚠️ WARNING: Do NOT scan without copying the URL to your clipboard!</p>
+        <button onclick="writeToNFC()">📲 SCAN</button>
     </div>
 
     <script>
         document.getElementById('itemForm').addEventListener('submit', function (event) {
             event.preventDefault();
 
+            // Get the current date and time
             const currentDate = new Date();
-            const formattedDate = `${currentDate.getDate().toString().padStart(2, '0')}/${(currentDate.getMonth() + 1).toString().padStart(2, '0')}/${currentDate.getFullYear()}`;
+            const formattedDate = currentDate.toISOString(); // Format as ISO string (e.g., "2023-10-05T12:34:56.789Z")
 
             const formData = {
                 itemName: document.getElementById('itemName').value,
@@ -133,24 +166,17 @@
                 phone: document.getElementById('phone').value,
                 password: document.getElementById('password').value,
                 available: document.getElementById('available').checked,
-                dateOfUpload: formattedDate
+                dateOfUpload: formattedDate, // Add the current date and time
             };
 
             const backendUrl = 'https://nfc-rental-system2-1.onrender.com/items';
 
             fetch(backendUrl, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData)
             })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.text();
-            })
+            .then(response => response.text())
             .then(data => {
                 document.getElementById('backendLink').href = data;
                 document.getElementById('backendLink').textContent = data;
@@ -173,6 +199,22 @@
             }).catch(err => {
                 console.error('Failed to copy link: ', err);
             });
+        }
+
+        async function writeToNFC() {
+            if (!("NDEFReader" in window)) {
+                alert("Your browser does not support NFC writing.");
+                return;
+            }
+
+            try {
+                const nfcWriter = new NDEFReader();
+                await nfcWriter.write(document.getElementById('backendLink').textContent);
+                alert("Link successfully written to NFC tag!");
+            } catch (error) {
+                console.error("Error writing to NFC:", error);
+                alert("Failed to write NFC tag. Make sure your device supports NFC and try again.");
+            }
         }
     </script>
 </body>
